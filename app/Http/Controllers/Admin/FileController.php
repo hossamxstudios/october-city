@@ -539,10 +539,8 @@ class FileController extends Controller {
         // Build descriptive filename
         // Format: ClientName_District-Zone-Area-LandNo_Room-Lane-Stand-Rack_FileNumber.pdf
         $geoLocation = collect([
-            $file->land?->district?->name,
             $file->land?->zone?->name,
-            $file->land?->area?->name,
-            $file->land?->land_no ? "أرض{$file->land->land_no}" : null,
+            $file->land?->land_no ? "قطعة{$file->land->land_no}" : null,
         ])->filter()->implode('-');
 
         $physicalLocation = collect([

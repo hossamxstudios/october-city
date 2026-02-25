@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\ClientController;
 use App\Http\Controllers\Admin\LandController;
 use App\Http\Controllers\Admin\FileController;
 use App\Http\Controllers\Admin\PhysicalLocationController;
+use App\Http\Controllers\Admin\BoxController;
 use App\Http\Controllers\Admin\GeographicAreaController;
 use App\Http\Controllers\Admin\ItemController;
 use App\Http\Controllers\Admin\ImportController;
@@ -129,6 +130,13 @@ Route::middleware(['auth'])->name('admin.')->group(function () {
     Route::post('/physical-locations/boxes'                             , [PhysicalLocationController::class,         'storeBox'])->name('physical-locations.boxes.store');
     Route::post('/physical-locations/boxes/{box}'                       , [PhysicalLocationController::class,        'updateBox'])->name('physical-locations.boxes.update');
     Route::post('/physical-locations/boxes/{box}/delete'                , [PhysicalLocationController::class,       'destroyBox'])->name('physical-locations.boxes.destroy');
+    // Boxes Management
+    Route::get('/boxes'                                                 , [BoxController::class,                          'index'])->name('boxes.index');
+    Route::get('/boxes/export'                                          , [BoxController::class,                         'export'])->name('boxes.export');
+    Route::post('/boxes/bulk-print'                                     , [BoxController::class,              'bulkPrintBarcodes'])->name('boxes.bulk-print');
+    Route::post('/boxes/generate-barcodes'                              , [BoxController::class,              'generateBarcodes'])->name('boxes.generate-barcodes');
+    Route::get('/boxes/{box}'                                           , [BoxController::class,                           'show'])->name('boxes.show');
+    Route::get('/boxes/{box}/print-barcode'                             , [BoxController::class,                   'printBarcode'])->name('boxes.print-barcode');
     // Items (Content Types)
     Route::get('/items'                                                 , [ItemController::class,                        'index'])->name('items.index');
     Route::post('/items'                                                , [ItemController::class,                        'store'])->name('items.store');

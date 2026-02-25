@@ -181,11 +181,11 @@
 }
 </style>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<script src="{{ asset('dashboard/assets/vendor/pdfjs/pdf.min.js') }}"></script>
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     // Set PDF.js worker
-    pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+    pdfjsLib.GlobalWorkerOptions.workerSrc = '{{ asset('dashboard/assets/vendor/pdfjs/pdf.worker.min.js') }}';
 
     // Store used page ranges per file
     const usedRanges = {};

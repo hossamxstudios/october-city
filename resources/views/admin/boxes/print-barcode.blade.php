@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>طباعة باركود - {{ $client->name }}</title>
+    <title>طباعة باركود البوكس: {{ $box->name }}</title>
     <style>
         * {
             margin: 0;
@@ -15,6 +15,28 @@
             background: #fff;
             padding: 20px;
             direction: rtl;
+        }
+        .print-actions {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            display: flex;
+            gap: 10px;
+        }
+        .print-actions button {
+            padding: 10px 20px;
+            font-size: 14px;
+            cursor: pointer;
+            border: none;
+            border-radius: 5px;
+        }
+        .btn-print {
+            background: #0d6efd;
+            color: white;
+        }
+        .btn-close {
+            background: #6c757d;
+            color: white;
         }
         .print-header {
             text-align: center;
@@ -29,20 +51,6 @@
         .print-header p {
             color: #666;
             font-size: 14px;
-        }
-        .client-info {
-            background: #f8f9fa;
-            padding: 15px;
-            border-radius: 8px;
-            margin-bottom: 30px;
-        }
-        .client-info h2 {
-            font-size: 18px;
-            margin-bottom: 10px;
-        }
-        .client-info p {
-            margin: 5px 0;
-            color: #555;
         }
         .barcodes-grid {
             display: grid;
@@ -90,33 +98,6 @@
             color: #666;
             margin-bottom: 10px;
         }
-        .no-barcodes {
-            text-align: center;
-            padding: 50px;
-            color: #666;
-        }
-        .print-actions {
-            position: fixed;
-            top: 20px;
-            left: 20px;
-            display: flex;
-            gap: 10px;
-        }
-        .print-actions button {
-            padding: 10px 20px;
-            font-size: 14px;
-            cursor: pointer;
-            border: none;
-            border-radius: 5px;
-        }
-        .btn-print {
-            background: #0d6efd;
-            color: white;
-        }
-        .btn-close {
-            background: #6c757d;
-            color: white;
-        }
         @media print {
             .print-actions {
                 display: none;
@@ -142,63 +123,42 @@
 
     <div class="print-header">
         <h1>أرشيف اكتوبر</h1>
-        <p>طباعة باركود ملفات العميل</p>
+        <p>طباعة باركود البوكس</p>
     </div>
 
-    <div class="client-info">
-        <h2>{{ $client->name }}</h2>
-        <p><strong>كود العميل:</strong> {{ $client->client_code ?? '-' }}</p>
-        <p><strong>الرقم القومي:</strong> {{ $client->national_id ?? '-' }}</p>
-        <p><strong>عدد الملفات:</strong> {{ $client->files->count() }}</p>
-    </div>
+    @php
+        $rack = $box->rack;
+        $stand = $rack?->stand;
+        $lane = $stand?->lane;
+        $room = $lane?->room;
+        $physicalLocation = collect([
+            $room?->name ? 'غرفة ' . $room->name : null,
+            $lane?->name ? 'ممر ' . $lane->name : null,
+            $stand?->name ? 'ستاند ' . $stand->name : null,
+            $rack?->name ? 'رف ' . $rack->name : null,
+        ])->filter()->implode(' - ') ?: '-';
+    @endphp
 
-    @if($client->files->count() > 0)
     <div class="barcodes-grid">
-        @foreach($client->files as $file)
-        @php
-            $geoLocation = $file->land ? collect([
-                $file->land->zone?->name,
-                $file->land->land_no ? 'قطعة ' . $file->land->land_no : null
-            ])->filter()->implode(' - ') : '-';
-            $physicalLocation = collect([
-                $file->room?->name ? 'غرفة ' . $file->room->name : null,
-                $file->lane?->name ? 'ممر ' . $file->lane->name : null,
-                $file->stand?->name ? 'ستاند ' . $file->stand->name : null,
-                $file->rack?->name ? 'رف ' . $file->rack->name : null,
-            ])->filter()->implode(' - ') ?: '-';
-        @endphp
         <div class="barcode-card">
-            <div class="file-name">{{ $client->name }}</div>
-            <div class="geo-location">{{ $geoLocation }}</div>
+            <div class="file-name">{{ $box->name }}</div>
+            <div class="geo-location">📦 بوكس</div>
             <div class="physical-location">{{ $physicalLocation }}</div>
             <div class="barcode-image">
-                <svg id="barcode-{{ $file->id }}"></svg>
+                <svg id="barcode"></svg>
             </div>
-            <div class="barcode-value">{{ $file->barcode }}</div>
+            <div class="barcode-value">{{ $box->barcode }}</div>
         </div>
-        @endforeach
     </div>
 
     <script src="{{ asset('dashboard/assets/js/barcode.min.js') }}"></script>
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            @foreach($client->files as $file)
-            @if($file->barcode)
-            JsBarcode("#barcode-{{ $file->id }}", "{{ $file->barcode }}", {
-                format: "CODE128",
-                width: 1,
-                height: 50,
-                displayValue: false
-            });
-            @endif
-            @endforeach
+        JsBarcode("#barcode", "{{ $box->barcode }}", {
+            format: "CODE128",
+            width: 1,
+            height: 50,
+            displayValue: false
         });
     </script>
-    @else
-    <div class="no-barcodes">
-        <h3>لا توجد ملفات بها باركود</h3>
-        <p>لم يتم العثور على ملفات تحتوي على باركود لهذا العميل</p>
-    </div>
-    @endif
 </body>
 </html>

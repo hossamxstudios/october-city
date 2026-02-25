@@ -435,9 +435,9 @@
         </div>
     </div>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+    <script src="{{ asset('dashboard/assets/vendor/pdfjs/pdf.min.js') }}"></script>
     <script>
-        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+        pdfjsLib.GlobalWorkerOptions.workerSrc = '{{ asset('dashboard/assets/vendor/pdfjs/pdf.worker.min.js') }}';
 
         document.addEventListener('DOMContentLoaded', function() {
             // Render PDF thumbnails
@@ -590,7 +590,7 @@
             }
             const loadingTask = pdfjsLib.getDocument({
                 url: pdfUrl,
-                cMapUrl: 'https://cdn.jsdelivr.net/npm/pdfjs-dist@3.11.174/cmaps/',
+                cMapUrl: '{{ asset('dashboard/assets/vendor/pdfjs/cmaps') }}/',
                 cMapPacked: true,
             });
             const pdf = await loadingTask.promise;

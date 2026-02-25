@@ -3,10 +3,8 @@
     @if($file->barcode)
     @php
         $geoLocation = collect([
-            $file->land?->district?->name,
             $file->land?->zone?->name,
-            $file->land?->area?->name,
-            $file->land?->land_no ? 'أرض ' . $file->land->land_no : null
+            $file->land?->land_no ? 'قطعة ' . $file->land->land_no : null
         ])->filter()->implode(' - ') ?: '-';
         $physicalLocation = collect([
             $file->room?->name ? 'غرفة ' . $file->room->name : null,

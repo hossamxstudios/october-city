@@ -60,10 +60,8 @@
         if ($firstFileWithBarcode) {
             if ($firstFileWithBarcode->land) {
                 $geoLocation = collect([
-                    $firstFileWithBarcode->land?->district?->name,
                     $firstFileWithBarcode->land?->zone?->name,
-                    $firstFileWithBarcode->land?->area?->name,
-                    $firstFileWithBarcode->land?->land_no ? 'أرض ' . $firstFileWithBarcode->land->land_no : null
+                    $firstFileWithBarcode->land?->land_no ? 'قطعة ' . $firstFileWithBarcode->land->land_no : null
                 ])->filter()->implode(' - ') ?: '-';
             }
             $physicalLocation = collect([
@@ -78,10 +76,8 @@
         // Prepare all files data for this client
         $clientFilesData = $client->files->filter(fn($f) => $f->barcode)->map(function($f) use ($client) {
             $fileGeo = $f->land ? collect([
-                $f->land?->district?->name,
                 $f->land?->zone?->name,
-                $f->land?->area?->name,
-                $f->land?->land_no ? 'أرض ' . $f->land->land_no : null
+                $f->land?->land_no ? 'قطعة ' . $f->land->land_no : null
             ])->filter()->implode(' - ') : '-';
             $filePhysical = collect([
                 $f->room?->name ? 'غرفة ' . $f->room->name : null,

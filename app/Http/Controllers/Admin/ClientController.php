@@ -341,10 +341,8 @@ class ClientController extends Controller
                 if ($file->barcode) {
                     $geo = $file->land
                         ? collect([
-                            $file->land->district?->name,
                             $file->land->zone?->name,
-                            $file->land->area?->name,
-                            $file->land->land_no ? 'أرض ' . $file->land->land_no : null
+                            $file->land->land_no ? 'قطعة ' . $file->land->land_no : null
                         ])->filter()->implode(' - ')
                         : '-';
 

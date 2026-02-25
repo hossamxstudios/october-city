@@ -38,6 +38,16 @@
                 </li>
             @endcan
 
+            <!-- Boxes Management -->
+            @can('physical_locations.view')
+                <li class="side-nav-item">
+                    <a href="{{ route('admin.boxes.index') }}" class="side-nav-link {{ request()->routeIs('admin.boxes.*') ? 'active' : '' }}">
+                        <span class="menu-icon"><i class="ti ti-box"></i></span>
+                        <span class="menu-text">إدارة البوكسات</span>
+                    </a>
+                </li>
+            @endcan
+
             <!-- Archive Lands -->
             {{-- @can('lands.view')
                 <li class="side-nav-item">
