@@ -29,6 +29,16 @@
                         </div>
                         <div class="col-auto">
                             <div class="gap-2 btn-list">
+                                @if(\App\Models\Box::whereNull('barcode')->count() > 0)
+                                <form action="{{ route('admin.boxes.generate-barcodes') }}" method="POST" class="d-inline">
+                                    @csrf
+                                    <button type="submit" class="btn btn-ghost-warning">
+                                        <i class="ti ti-barcode me-1"></i>
+                                        <span class="d-none d-sm-inline">توليد باركودات</span>
+                                        <span class="badge bg-warning ms-1">{{ \App\Models\Box::whereNull('barcode')->count() }}</span>
+                                    </button>
+                                </form>
+                                @endif
                                 <a href="{{ route('admin.boxes.export') }}" class="btn btn-ghost-success">
                                     <i class="ti ti-file-spreadsheet me-1"></i>
                                     <span class="d-none d-sm-inline">تصدير CSV</span>
