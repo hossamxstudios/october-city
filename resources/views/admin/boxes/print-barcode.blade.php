@@ -4,11 +4,11 @@
     <meta charset="UTF-8">
     <title>طباعة باركود البوكس - {{ $box->name }}</title>
     <style>
-        @page { size: 38mm 25mm; margin: 0; }
+        @page { size: 40mm 28mm; margin: 0; }
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: Arial, sans-serif; }
         .sticker {
-            width: 38mm; height: 25mm; padding: 0.5mm;
+            width: 40mm; height: 28mm; padding: 0.5mm;
             display: flex; flex-direction: column;
             align-items: center; justify-content: center;
             gap: 0.3mm; page-break-after: always; overflow: hidden;

@@ -18,7 +18,7 @@
 
                 {{-- Preview Container for multiple stickers --}}
                 <div class="mb-3">
-                    <label class="text-center form-label text-muted d-block">معاينة الاستيكرات (38×25 مم)</label>
+                    <label class="text-center form-label text-muted d-block">معاينة الاستيكرات (40×28 مم)</label>
                 </div>
 
                 {{-- Stickers Grid --}}
@@ -109,7 +109,7 @@
 
     @media print {
         @page {
-            size: 38mm 25mm;
+            size: 40mm 28mm;
             margin: 0;
         }
 
