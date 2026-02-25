@@ -96,6 +96,12 @@ class BoxController extends Controller
      */
     public function bulkPrintBarcodes(Request $request)
     {
+        $boxIds = $request->box_ids;
+        if (is_string($boxIds)) {
+            $boxIds = json_decode($boxIds, true);
+        }
+        $request->merge(['box_ids' => $boxIds]);
+
         $request->validate([
             'box_ids' => 'required|array|min:1',
             'box_ids.*' => 'exists:boxes,id',
